@@ -1,0 +1,11 @@
+[libdefaults]
+    default_realm = {{ ldap_domain|upper }}
+    dns_lookup_realm = false
+    dns_lookup_kdc = true
+    forwardable = yes
+    ticket_lifetime = 10h
+    renew_lifetime = 5d
+
+[domain_realm]
+    .{{ ldap_domain|lower }} = {{ ldap_domain|upper }}
+    {{ ldap_domain|lower }} = {{ ldap_domain|upper }}

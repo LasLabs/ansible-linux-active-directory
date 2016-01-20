@@ -1,0 +1,12 @@
+# Install and configure SSSD
+
+- include_vars: ad.vault.yml
+- include_vars: main.yml
+
+- apt: name={{ item }} state=latest 
+  with_items:
+    - sssd
+  
+- name: Setting SSSD Config - /etc/sssd/sssd.conf
+  template: src=sssd.conf.j2 dest=/etc/sssd/sssd.conf owner=root mode=0600
+

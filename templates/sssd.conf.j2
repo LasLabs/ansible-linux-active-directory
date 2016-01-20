@@ -1,0 +1,50 @@
+[sssd]
+config_file_version = 2
+reconnection_retries = 3
+sbus_timeout = 30
+services = nss, pam
+domains = AD
+
+[nss]
+reconnection_retries = 3
+
+[pam]
+reconnection_retries = 3
+
+# Active Directory
+[domain/AD]
+description = AD DC
+enumerate = true
+min_id = 2000
+id_provider = ldap
+auth_provider = krb5
+chpass_provider = krb5
+access_provider = ldap
+
+ldap_uri = ldaps://{{ ldap_server }}
+ldap_default_bind_dn = {{ ldap_bind_dn }}
+ldap_default_authtok_type = password
+ldap_default_authtok = {{ ldap_bind_pw }}
+ldap_schema = rfc2307bis
+ldap_account_expire_policy = ad
+ldap_access_order = expire
+
+ldap_user_search_base = {{ ldap_user_base }}
+ldap_group_search_base = {{ ldap_group_base }}
+ldap_user_object_class = user
+ldap_user_name = sAMAccountName
+ldap_user_uid_number = uidNumber
+ldap_user_gid_number = gidNumber
+ldap_user_home_directory = unixHomeDirectory
+ldap_user_shell = loginShell
+ldap_user_principal = userPrincipalName
+ldap_group_object_class = group
+ldap_group_gid_number = gidNumber
+ldap_force_upper_case_realm = True
+ldap_user_member_of = memberOf
+
+krb5_realm = {{ ldap_domain|upper }}
+krb5_server = {{ ldap_domain|upper }}
+krb5_lifetime = 6h
+krb5_renewable_lifetime = 7d
+krb5_renew_interval = 1h

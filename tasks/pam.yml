@@ -1,0 +1,16 @@
+# Setup PAM
+
+- name: Add pam_sss to common-account
+  lineinfile: dest=/etc/pam.d/common-account insertafter="\.*pam_localuser.so" regexp="\.*pam_sss.so\.*" line="account      [default=bad success=ok user_unknown=ignore] pam_sss.so"
+
+- name: Add pam_sss to common-auth
+  lineinfile: dest=/etc/pam.d/common-auth insertafter="\.*pam_unix.so" regexp="\.*pam_sss.so\.*" line="auth    [success=1 default=ignore]      pam_sss.so use_first_pass"
+
+- name: Add pam_sss to common-password
+  lineinfile: dest=/etc/pam.d/common-password insertbefore="\.*pam_unix.so" regexp="\.*pam_sss.so\.*" line="password        sufficient                      pam_sss.so use_authtok"
+
+- name: Add pam_mkhomedir to common-session
+  lineinfile: dest=/etc/pam.d/common-session insertbefore="\.*pam_unix.so" regexp="\.*pam_mkhomedir.so\.*" line="session     required        pam_mkhomedir.so umask=0022 skel=/etc/skel"
+
+- name: Add pam_sss to common-session
+  lineinfile: dest=/etc/pam.d/common-session insertafter="\.*pam_unix.so" regexp="\.*pam_sss.so\.*" line="session     optional      pam_sss.so"

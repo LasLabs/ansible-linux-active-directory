@@ -1,0 +1,10 @@
+# Get the AD DC CA and install it on the system
+
+- name: Querying AD DC for CA and saving to /usr/share/ca-certificates/addc.pem
+  shell: "yes | openssl s_client -connect {{ ldap_server }}:636 2>&1 |sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > /usr/share/ca-certificates/addc.pem"
+
+- name: Add AD DC CA into the system CA list
+  lineinfile: dest=/etc/ca-certificates.conf line="addc.pem"
+
+- name: Run /usr/sbin/update-ca-certificates to update system CAs
+  command: /usr/sbin/update-ca-certificates

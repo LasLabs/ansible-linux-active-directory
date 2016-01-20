@@ -1,0 +1,10 @@
+---
+# tasks file for active-directory.role
+
+# WARNING: Do not change this order or the process will fail
+- include: dns.yml tags=ad-dns
+- include: ad_certificate.yml tags=ad-certificate
+- include: ntp.yml tags=ntpd
+- include: krb5.yml tags=krb5
+- include: sssd.yml tags=sssd
+- include: pam.yml tags=pam

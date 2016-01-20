@@ -1,0 +1,11 @@
+---
+# defaults file for active-directory.role
+
+# LDAP Defaults
+ldap_server_ip: 10.0.0.1
+ldap_domain: corp.example.com
+ldap_server: ex-dc-prod-vmw-01.corp.example.com
+ldap_bind_dn: svc.ro-bind@corp.example.com
+# ldap_bind_pw @SEE ad.vault.yml
+ldap_user_base: OU=Example,DC=corp,DC=example,DC=com
+ldap_group_base: OU=Groups,OU=Example,DC=corp,DC=example,DC=com

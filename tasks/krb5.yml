@@ -1,0 +1,4 @@
+# Setup Kerberos on the system
+
+- name: Setting krb5 config - /etc/krb5.conf
+  template: src=krb5.conf.j2 dest=/etc/krb5.conf owner=root mode=0644
