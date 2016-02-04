@@ -1,38 +1,42 @@
 Active Directory for Linux Servers
 =========
 
-A brief description of the role goes here.
+This role will allow you to provision an Ubuntu/Debian box with Active Directory  logins.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+There are no prerequisites.
 
 Role Variables
 --------------
-
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+ldap_description - A description of this connection for SSSD
+ldap_server_ip - The IP Address of the desired AD DC. Comma separated values are allowed.
+ldap_domain - The FQDN of your Windows Domain
+ldap_server - The FQDN of the AD DC server. Comma separated values are allowed here too.
+ldap_bind_dn - The user to bind to the directory with. A user principle name is recommended.
+ldap_bind_pw - The password for the bind user.
+ldap_user_base - The top level DN of your AD where users are stored.
+ldap_group_base -  The top level DN of your AD where groups are stored.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+There are no dependencies.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: active-directory.role, ldap_description: AD DC, ldap_server_ip: 10.0.0.1, ldap_domain: corp.example.com, ldap_server: ex-dc-prod-vmw-01.corp.example.com, ldap_bind_dn: svc.ro-bind@corp.example.com, ldap_bind_pw: somepasswd, ldap_user_base: OU=Example,DC=corp,DC=example,DC=com, ldap_group_base: OU=Groups,OU=Example,DC=corp,DC=example,DC=com }
 
 License
 -------
 
-BSD
+AGPL
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Ted Salmon <tsalmon@laslabs.com> LasLabs, Inc.

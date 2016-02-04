@@ -1,16 +1,53 @@
+##############################################################################
+#
+#    Author: Ted Salmon <tsalmon@laslabs.com>
+#    Copyright: 2016-TODAY LasLabs, Inc. [https://laslabs.com]
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
 # Setup PAM
 
 - name: Add pam_sss to common-account
-  lineinfile: dest=/etc/pam.d/common-account insertafter="\.*pam_localuser.so" regexp="\.*pam_sss.so\.*" line="account      [default=bad success=ok user_unknown=ignore] pam_sss.so"
+  lineinfile:
+    dest=/etc/pam.d/common-account
+    insertafter="\.*pam_localuser.so"
+    regexp="\.*pam_sss.so\.*"
+    line="account      [default=bad success=ok user_unknown=ignore] pam_sss.so"
 
 - name: Add pam_sss to common-auth
-  lineinfile: dest=/etc/pam.d/common-auth insertafter="\.*pam_unix.so" regexp="\.*pam_sss.so\.*" line="auth    [success=1 default=ignore]      pam_sss.so use_first_pass"
+  lineinfile:
+    dest=/etc/pam.d/common-auth insertafter="\.*pam_unix.so"
+    regexp="\.*pam_sss.so\.*"
+    line="auth    [success=1 default=ignore]      pam_sss.so use_first_pass"
 
 - name: Add pam_sss to common-password
-  lineinfile: dest=/etc/pam.d/common-password insertbefore="\.*pam_unix.so" regexp="\.*pam_sss.so\.*" line="password        sufficient                      pam_sss.so use_authtok"
+  lineinfile:
+    dest=/etc/pam.d/common-password
+    insertbefore="\.*pam_unix.so"
+    regexp="\.*pam_sss.so\.*"
+    line="password        sufficient                      pam_sss.so use_authtok"
 
 - name: Add pam_mkhomedir to common-session
-  lineinfile: dest=/etc/pam.d/common-session insertbefore="\.*pam_unix.so" regexp="\.*pam_mkhomedir.so\.*" line="session     required        pam_mkhomedir.so umask=0022 skel=/etc/skel"
+  lineinfile:
+    dest=/etc/pam.d/common-session insertbefore="\.*pam_unix.so"
+    regexp="\.*pam_mkhomedir.so\.*"
+    line="session     required        pam_mkhomedir.so umask=0022 skel=/etc/skel"
 
 - name: Add pam_sss to common-session
-  lineinfile: dest=/etc/pam.d/common-session insertafter="\.*pam_unix.so" regexp="\.*pam_sss.so\.*" line="session     optional      pam_sss.so"
+  lineinfile:
+    dest=/etc/pam.d/common-session insertafter="\.*pam_unix.so"
+    regexp="\.*pam_sss.so\.*"
+    line="session     optional      pam_sss.so"
