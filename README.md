@@ -1,3 +1,5 @@
+[![License: Apache 2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 Active Directory for Linux Servers
 ==================================
 
@@ -49,10 +51,6 @@ Example Playbook
 Credits
 =======
 
-License
--------
-
-
 Contributors
 ------------
 
@@ -60,6 +58,8 @@ Contributors
 
 Maintainer
 ----------
+
+[![LasLabs Inc.](https://laslabs.com/logo.png)](https://laslabs.com)
 
 This module is maintained by [LasLabs Inc.](https://laslabs.com)
 
