@@ -1,5 +1,7 @@
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
+[![Build Status](https://travis-ci.org/LasLabs/ansible-linux-active-directory.svg?branch=master)](https://travis-ci.org/LasLabs/ansible-linux-active-directory)
+
 Active Directory for Linux Servers
 ==================================
 

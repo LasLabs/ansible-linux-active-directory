@@ -14,4 +14,4 @@
   template: src=sssd.conf.j2 dest=/etc/sssd/sssd.conf owner=root mode=0600
   
 - name: Start SSSD and set to start on boot
-  service: name=sssd state=reloaded enabled=true
+  service: name=sssd state=restarted enabled=true
