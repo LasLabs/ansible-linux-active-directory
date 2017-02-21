@@ -5,7 +5,7 @@
 - include_vars: main.yml
 
 - name: Add DNS to Resolv.conf template - /etc/resolvconf/resolv.conf.d/head
-  lineinfile: dest=/etc/resolvconf/resolv.conf.d/head state=present line="nameserver {{ ldap_server }}"
+  lineinfile: dest=/etc/resolvconf/resolv.conf.d/head state=present line="nameserver {{ ldap_server_ip }}"
   
 - name: Restart Resolvconf for changes to take effect
   service: name=resolvconf state=restarted
