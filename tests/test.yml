@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  remote_user: root
+
+  vars:
+    ldap_bind_pw: Test
+
+  roles:
+    - ansible-linux-active-directory
+

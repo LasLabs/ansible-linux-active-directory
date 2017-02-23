@@ -5,8 +5,9 @@ galaxy_info:
   author: Ted Salmon
   description: 
   company: LasLabs, Inc.
-  license: license AGPL
+  license: Apache 2.0
   min_ansible_version: 1.2
+  platforms:
   - name: Ubuntu
     versions:
     - trusty
@@ -16,10 +17,6 @@ galaxy_info:
     versions:
     - squeeze
     - wheezy
-  #
-  # Below are all categories currently available. Just as with
-  # the platforms above, uncomment those that apply to your role.
-  #
   categories:
   - system
 dependencies: []
