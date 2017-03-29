@@ -3,11 +3,35 @@
 ---
 # Get the AD DC CA and install it on the system
 
-- name: Querying AD DC for CA and saving to /usr/share/ca-certificates/addc.pem
-  shell: "yes | openssl s_client -connect {{ ldap_server }}:636 2>&1 |sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > /usr/share/ca-certificates/addc.pem"
+- name: Query AD DC for CA and save to /tmp/addc.pem
+  shell: "yes | openssl s_client -connect {{ ldap_server }}:636 2>&1 |sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > /tmp/addc.pem"
+
+# Ubuntu Specific Setup
+- name: Move Certificate to /usr/share/ca-certificates/addc.pem
+  shell: mv /tmp/addc.pem /usr/share/ca-certificates/addc.pem
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Add AD DC CA into the system CA list
   lineinfile: dest=/etc/ca-certificates.conf line="addc.pem"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Run /usr/sbin/update-ca-certificates to update system CAs
   command: /usr/sbin/update-ca-certificates
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+# CentOS / RHEL Specific Setup
+- name: Install ca-certificates
+  package: name=ca-certificates state=latest
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  
+- name: Enable dynamic CA configuration
+  shell: update-ca-trust force-enable
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Move Certificate to /etc/pki/ca-trust/source/anchors/
+  shell: mv /tmp/addc.pem /etc/pki/ca-trust/source/anchors/addc.pem
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Run update-ca-trust extract to update system CAs
+  shell: update-ca-trust extract
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'

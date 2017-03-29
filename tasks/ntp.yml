@@ -5,12 +5,17 @@
 
 - include_vars: main.yml
 
-- apt: name={{ item }} state=latest 
+- package: name={{ item }} state=latest 
   with_items:
     - ntp
 
-- name: Setting NTP config - /etc/ntp.conf
+- name: Set NTP config - /etc/ntp.conf
   template: src=ntp.conf.j2 dest=/etc/ntp.conf owner=root mode=0644
 
-- name: Restarting NTP and Enabling on boot
+- name: Restart NTP and Enable on Boot
   service: name=ntp state=restarted enabled=yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Restart NTPd and Enable on Boot
+  service: name=ntpd state=restarted enabled=yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'

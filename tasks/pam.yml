@@ -1,20 +1,22 @@
 # Copyright 2016 LasLabs Inc.
 # License Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0.html).
 ---
-# Setup PAM
 
+# Ubuntu Specific Setup
 - name: Add pam_sss to common-account
   lineinfile:
     dest=/etc/pam.d/common-account
     insertafter="\.*pam_localuser.so"
     regexp="\.*pam_sss.so\.*"
     line="account      [default=bad success=ok user_unknown=ignore] pam_sss.so"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Add pam_sss to common-auth
   lineinfile:
     dest=/etc/pam.d/common-auth insertafter="\.*pam_unix.so"
     regexp="\.*pam_sss.so\.*"
     line="auth    [success=1 default=ignore]      pam_sss.so use_first_pass"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Add pam_sss to common-password
   lineinfile:
@@ -22,15 +24,23 @@
     insertbefore="\.*pam_unix.so"
     regexp="\.*pam_sss.so\.*"
     line="password        sufficient                      pam_sss.so use_authtok"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Add pam_mkhomedir to common-session
   lineinfile:
     dest=/etc/pam.d/common-session insertbefore="\.*pam_unix.so"
     regexp="\.*pam_mkhomedir.so\.*"
     line="session     required        pam_mkhomedir.so umask=0022 skel=/etc/skel"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Add pam_sss to common-session
   lineinfile:
     dest=/etc/pam.d/common-session insertafter="\.*pam_unix.so"
     regexp="\.*pam_sss.so\.*"
     line="session     optional      pam_sss.so"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+# CentOS / RHEL Specific Setup
+- name: Run authconfig to enable SSSD auth
+  shell: authconfig --enablesssd --enablesssdauth --enablemkhomedir --update
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
