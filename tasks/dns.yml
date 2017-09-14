@@ -4,8 +4,20 @@
 # Configure the system DNS to use the AD DC
 - include_vars: main.yml
 
+# CentOS / RHEL Specific Setup
 - name: Add DNS to Resolv.conf template - /etc/resolvconf/resolv.conf.d/head
   lineinfile: dest=/etc/resolvconf/resolv.conf.d/head state=present line="nameserver {{ ldap_server_ip }}"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   
 - name: Restart Resolvconf for changes to take effect
   service: name=resolvconf state=restarted
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+# CentOS / RHEL Specific Setup
+- name: Add DNS to /etc/sysconfig/network
+  lineinfile: dest=/etc/sysconfig/network state=present line="DNS1= {{ldap_server_ip }}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Restart Networking for DNS to take effect
+  service: name=network state=restarted
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'

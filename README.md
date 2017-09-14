@@ -5,7 +5,8 @@
 Active Directory for Linux Servers
 ==================================
 
-This role will allow you to provision an Ubuntu/Debian box with Active Directory logins.
+This role will allow you to provision a Debian or Fedora Based box with an
+ Active Directory login backend.
 
 Usage
 =====

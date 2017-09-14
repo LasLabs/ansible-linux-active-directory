@@ -6,7 +6,8 @@
 - include_vars: ad.vault.yml
 - include_vars: main.yml
 
-- apt: name={{ item }} state=latest 
+- name: Install sssh
+  package: name={{ item }} state=latest 
   with_items:
     - sssd
   
